@@ -1,4 +1,4 @@
-/* Người làm: Phạm Đăng Khôi*/
+/* Người làm: Nguyễn Tuấn Phát*/
 package entities;
 
 import java.util.Date;
