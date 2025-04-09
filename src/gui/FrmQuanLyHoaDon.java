@@ -1,5 +1,5 @@
 /**
- * Người làm: Phạm Đăng Khôi
+ * Người làm: Nguyễn Tuấn Phát
  */
 package gui;
 
@@ -105,7 +105,7 @@ public class FrmQuanLyHoaDon extends JFrame implements ActionListener {
 		setResizable(false);
 		setForeground(new Color(176, 224, 230));
 		setBackground(new Color(176, 224, 230));
-		setTitle("Phần mềm quản lý nhà thuốc Tây Nam");
+		setTitle("Phần mềm quản lý quán cafe");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 692);
 		contentPane = new JPanel();
@@ -290,7 +290,7 @@ public class FrmQuanLyHoaDon extends JFrame implements ActionListener {
 		scrChiTiet.setBounds(10, 21, 540, 176);
 		pnlChiTiet.add(scrChiTiet);
 		String[] col2= {
-				"STT","Tên thuốc","Đơn vị tính","Đơn giá","Số lượng","Giảm giá","Thành tiền"
+				"STT","Tên món","Đơn vị tính","Đơn giá","Số lượng","Giảm giá","Thành tiền"
 		};
 		tblModelChiTiet = new DefaultTableModel(col2, 0);
 		tblChiTiet = new JTable(tblModelChiTiet);
@@ -354,10 +354,10 @@ public class FrmQuanLyHoaDon extends JFrame implements ActionListener {
 				txtTongTien.setText(tblHoaDon.getValueAt(row, 3).toString() + " "
 						+ "(Đã bao gồm thuế)");
 				List<ChiTietHoaDon> list = dao.getChiTiets(tblHoaDon.getValueAt(row, 1).toString());
-//				Xuất dữ liệu thuốc đã mua vào bảng  dữ liệu thuốc
+//				Xuất dữ liệu món đã mua vào bảng  dữ liệu món
 				xoaTableChiTiet();
 				for(ChiTietHoaDon ct : list) {
-					String thuoc = dao.gettenThuoc(ct.getMaThuoc());
+					String thuoc = dao.getTenCaPhe(ct.getMaMon());
 					double tongTien= ct.getDonGia()*ct.getSoLuong()-(ct.getGiamGia() / 100 * ct.getDonGia()* ct.getSoLuong());
 					tblModelChiTiet.addRow(new Object[] {
 							d++,thuoc,ct.getDonViTinh(),ct.getDonGia(),ct.getSoLuong(),ct.getGiamGia(),tongTien
