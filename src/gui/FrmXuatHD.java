@@ -1,4 +1,4 @@
-/* Người làm: Phạm Đăng Khôi*/
+/* Người làm: Nguyễn Tuấn Phát*/
 package gui;
 
 import java.awt.BorderLayout;
@@ -40,38 +40,33 @@ import javax.swing.JButton;
 
 public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 
-	private static JPanel contentPane;
-	public static JTable table;
-	public static JLabel lblQLT;
-	public static JLabel lblMSThue;
-	public static JLabel lblDiaChi;
-	public static JLabel lblDienThoai;
-	public static JLabel lblGPKD;
-	public static JLabel lblMHDon ;
-	public static JLabel lblLoaiHD;
-	public static JLabel lblHD;
-	public static JLabel lblNgayLap;
-	public static JLabel lblHoTenKH ;
-	public static JLabel lblDiaChiKH;
-	public static JLabel lblNamSinh;
-	public static JLabel lblSDTKH;
-	public static JLabel lblGioiTinh ;
-	public static JLabel lblTenKH1;
-	public static JLabel lblLoaiHD1;
-	public static JLabel lblMaHD;
-	public static JLabel lblNgayLap1;
-	public static JLabel lblGTinh1;
-	public static JLabel lblDCKH1 ;
-	public static JLabel lblNamSinh1 ;
-	public static JLabel lblsdtkh1;
-	public static JLabel lblSL;
-	public static JLabel lblTongTThuoc;
-	public static JLabel lblTongT ;
-	public static JLabel lblNguoiBan ;
-	public static JLabel lblNguoiMuaHang1 ;
-	private static JPanel panel;
-	public static DefaultTableModel tableModel ;
-	
+	 private static JPanel contentPane;
+	    public static JTable table;
+	    public static JLabel lblQLT;
+	    public static JLabel lblMSThue;
+	    public static JLabel lblDiaChi;
+	    public static JLabel lblDienThoai;
+	    public static JLabel lblGPKD;
+	    public static JLabel lblMHDon;
+	    public static JLabel lblLoaiHD;
+	    public static JLabel lblHD;
+	    public static JLabel lblNgayLap;
+	    public static JLabel lblHoTenKH;
+	    public static JLabel lblDiaChiKH;
+	    public static JLabel lblSDTKH;
+	    public static JLabel lblTenKH1;
+	    public static JLabel lblLoaiHD1;
+	    public static JLabel lblMaHD;
+	    public static JLabel lblNgayLap1;
+	    public static JLabel lblDCKH1;
+	    public static JLabel lblsdtkh1;
+	    public static JLabel lblSL;
+	    public static JLabel lblTongTMon;
+	    public static JLabel lblTongT;
+	    public static JLabel lblNguoiBan;
+	    public static JLabel lblNguoiMuaHang1;
+	    private static JPanel panel;
+	    public static DefaultTableModel tableModel;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -87,7 +82,7 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 
 	
 	public FrmXuatHD() {
-		setTitle("HÓA ĐƠN NHÀ THUỐC HẠNH PHÚC");
+		setTitle("HÓA ĐƠN QUÁN CAFE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setSize( 1199, 775);
@@ -108,7 +103,7 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 		
 		
 		
-		lblQLT = new JLabel("HÓA ĐƠN NHÀ THUỐC HẠNH PHÚC");
+		lblQLT = new JLabel("HÓA ĐƠN QUÁN CAFE");
 		lblQLT.setBounds(149, 11, 301, 27);
 		lblQLT.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblQLT.setForeground(new Color(255, 0, 0));
@@ -180,37 +175,15 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 		lblDiaChiKH.setForeground(Color.BLUE);
 		lblDiaChiKH.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		lblDiaChiKH.setBounds(10, 61, 75, 14);
-		panel_1.add(lblDiaChiKH);
-		
-		lblNamSinh = new JLabel("Năm sinh:");
-		lblNamSinh.setForeground(Color.BLUE);
-		lblNamSinh.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNamSinh.setBounds(296, 11, 75, 14);
-		panel_1.add(lblNamSinh);
-		
+		panel_1.add(lblDiaChiKH);		
 		lblSDTKH = new JLabel("Số điện thoại:");
 		lblSDTKH.setForeground(Color.BLUE);
 		lblSDTKH.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		lblSDTKH.setBounds(296, 36, 106, 14);
-		panel_1.add(lblSDTKH);
-		
-		lblGioiTinh = new JLabel("Giới tính:");
-		lblGioiTinh.setForeground(Color.BLUE);
-		lblGioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblGioiTinh.setBounds(10, 36, 67, 17);
-		panel_1.add(lblGioiTinh);
-		
-		lblTenKH1 = new JLabel("");
+		panel_1.add(lblSDTKH);		lblTenKH1 = new JLabel("");
 		lblTenKH1.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		lblTenKH1.setBounds(80, 12, 147, 14);
-		panel_1.add(lblTenKH1);
-		
-		lblNamSinh1 = new JLabel("");
-		lblNamSinh1.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-		lblNamSinh1.setBounds(380, 12, 122, 14);
-		panel_1.add(lblNamSinh1);
-		
-		lblsdtkh1 = new JLabel("");
+		panel_1.add(lblTenKH1);		lblsdtkh1 = new JLabel("");
 		
 		lblsdtkh1.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		lblsdtkh1.setBounds(380, 37, 122, 14);
@@ -219,18 +192,12 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 		lblDCKH1 = new JLabel("");
 		lblDCKH1.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		lblDCKH1.setBounds(66, 61, 390, 14);
-		panel_1.add(lblDCKH1);
-		
-		lblGTinh1 = new JLabel("");
-		lblGTinh1.setBounds(78, 36, 106, 14);
-		panel_1.add(lblGTinh1);
-		
-		JLabel lblDHTTThuoc = new JLabel("THANH TOÁN THUỐC");
-		lblDHTTThuoc.setBounds(202, 138, 193, 27);
-		lblDHTTThuoc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDHTTThuoc.setForeground(new Color(0, 0, 255));
-		lblDHTTThuoc.setFont(new Font("Tahoma", Font.BOLD, 15));
-		panel.add(lblDHTTThuoc);
+		panel_1.add(lblDCKH1);		JLabel lblDHTTMon = new JLabel("THANH TOÁN CAFE");
+		lblDHTTMon.setBounds(202, 138, 193, 27);
+		lblDHTTMon.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDHTTMon.setForeground(new Color(0, 0, 255));
+		lblDHTTMon.setFont(new Font("Tahoma", Font.BOLD, 15));
+		panel.add(lblDHTTMon);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setViewportBorder(new LineBorder(new Color(0, 0, 128), 1, true));
@@ -238,7 +205,7 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 		panel.add(scrollPane_1);
 		
 		
-		String[] tb = new String[] {"STT","Tên Thuốc","ĐVT","Đơn Giá","Số Lượng","Giảm Giá(%)","Thành Tiền"};
+		String[] tb = new String[] {"STT","Tên Món","ĐVT","Đơn Giá","Số Lượng","Giảm Giá(%)","Thành Tiền"};
 
 		tableModel = new DefaultTableModel(tb,0);
 		table = new JTable(tableModel);
@@ -283,7 +250,7 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblTongTienTh = new JLabel("Tổng tiền thuốc:");
+		JLabel lblTongTienTh = new JLabel("Tổng tiền món:");
 		lblTongTienTh.setForeground(Color.BLUE);
 		lblTongTienTh.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		lblTongTienTh.setBounds(289, 6, 106, 24);
@@ -300,10 +267,10 @@ public class FrmXuatHD extends JFrame implements Printable,ActionListener {
 		lblSL.setBounds(75, 12, 31, 14);
 		panel_2.add(lblSL);
 		
-		lblTongTThuoc = new JLabel("");
-		lblTongTThuoc.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTongTThuoc.setBounds(386, 11, 132, 19);
-		panel_2.add(lblTongTThuoc);
+		lblTongTMon = new JLabel("");
+		lblTongTMon.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTongTMon.setBounds(386, 11, 132, 19);
+		panel_2.add(lblTongTMon);
 		
 		JLabel label_3 = new JLabel("(VND)");
 		label_3.setForeground(Color.BLUE);
