@@ -1,9 +1,9 @@
-/* Người làm: Phạm Đăng Khôi*/
+/* Người làm: Nguyễn Tuấn Phát */
 package entities;
 
 public class ChiTietHoaDon {
 	private String maHoaDon;
-	private int maThuoc;
+	private int maMon; 
 	private float donGia;
 	private float giamGia;
 	private int soLuong;
@@ -15,11 +15,11 @@ public class ChiTietHoaDon {
 	public void setMaHoaDon(String maHoaDon) {
 		this.maHoaDon = maHoaDon;
 	}
-	public int getMaThuoc() {
-		return maThuoc;
+	public int getMaMon() {
+		return maMon;
 	}
-	public void setMaThuoc(int maThuoc) {
-		this.maThuoc = maThuoc;
+	public void setMaMon(int maMon) {
+		this.maMon = maMon;
 	}
 	public float getDonGia() {
 		return donGia;
@@ -45,24 +45,28 @@ public class ChiTietHoaDon {
 	public void setDonViTinh(String donViTinh) {
 		this.donViTinh = donViTinh;
 	}
-	public ChiTietHoaDon(String maHoaDon, int maThuoc, float donGia, float giamGia, int soLuong, String donViTinh) {
+
+	public float tinhThanhTien() {
+		return soLuong * donGia * (1 - giamGia);
+	}
+
+	public ChiTietHoaDon(String maHoaDon, int maMon, float donGia, float giamGia, int soLuong, String donViTinh) {
 		super();
 		this.maHoaDon = maHoaDon;
-		this.maThuoc = maThuoc;
+		this.maMon = maMon;
 		this.donGia = donGia;
 		this.giamGia = giamGia;
 		this.soLuong = soLuong;
 		this.donViTinh = donViTinh;
 	}
+
 	public ChiTietHoaDon() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
+
 	@Override
 	public String toString() {
-		return "ChiTietHoaDon [maHoaDon=" + maHoaDon + ", maThuoc=" + maThuoc + ", donGia=" + donGia + ", giamGia="
+		return "ChiTietHoaDon [maHoaDon=" + maHoaDon + ", maMon=" + maMon + ", donGia=" + donGia + ", giamGia="
 				+ giamGia + ", soLuong=" + soLuong + ", donViTinh=" + donViTinh + "]";
 	}
-	
-	
 }
