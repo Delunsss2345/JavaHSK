@@ -1,8 +1,8 @@
 /*
- * Người làm: Phạm Đăng Khôi
+ * Người làm: Nguyễn Tuấn Phát
  * 			 
  *
- * Chức năng: tạo hóa đơn bán thuốc cho chương trình
+ * Chức năng: tạo hóa đơn bán món cho chương trình
  * */
 package gui;
 
@@ -71,7 +71,7 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 import database.*;
 import entities.ChiTietHoaDon;
 import entities.KhachHang;
-import entities.Thuoc;
+import entities.Mon;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
@@ -109,8 +109,8 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	private JLabel lblSdt;
 	public static JTextField txtSdt;
 	private JTable table;
-	private JLabel lblTongTienThuoc;
-	public static JTextField txtTongTienThuoc;
+	private JLabel lblTongTienMon;
+	public static JTextField txtTongTienMon;
 	private JLabel lblGiamGia;
 	private JLabel lblTongThanhToan;
 	private JTextField txtThue;
@@ -120,12 +120,12 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	private JComboBox cboDVT;
 	private JComboBox<Integer> cboSoLuong;
 	private JComboBox cboGiamGia;
-	public static JComboBox cboTimKiemThuoc ;
-	private JButton btnThemThuocTim;
+	public static JComboBox cboTimKiemMon ;
+	private JButton btnThemMonTim;
 	private JButton btnInHd;
 	private JButton btnXoa;
-	public static DefaultComboBoxModel cboModeTimKiemThuoc= new DefaultComboBoxModel();
-	private DefaultComboBoxModel cboModelTableThuoc = new DefaultComboBoxModel();
+	public static DefaultComboBoxModel cboModeTimKiemMon= new DefaultComboBoxModel();
+	private DefaultComboBoxModel cboModelTableMon = new DefaultComboBoxModel();
 	private JSpinner spinner = new JSpinner(new SpinnerNumberModel(new Integer(1),new Integer(1),null,new Integer(1)));
 	public static int i =0;
 	private JTextField txtTienNhan;
@@ -135,7 +135,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	public static JTextField txtSoLuong;
 	public static JLabel lblThongBao;
 	private static float tongThanhToan=0;
-	public static String setLoaiThuoc = "";
+	public static String setLoaiMon = "";
 	private JButton btnThemHoaDon;
 	private JMenuItem mntmSoLuong;
 	private JMenuItem mntmXoa;
@@ -144,13 +144,13 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	private JButton btnThemDiaChi;
 	private	FrmXuatHD frmXuatHD = new FrmXuatHD();
 	private FrmThemDiaChiKhachHang frmThemDiaChiKhachHang = new FrmThemDiaChiKhachHang();
-	private FrmChonThuoc frmChonThuoc = new FrmChonThuoc();
+	private FrmChonMon frmChonMon = new FrmChonMon();
 	private static LapHoaDonDAO lapHoaDonDAO = new LapHoaDonDAO();
 	
 	public FrmLapHoaDon() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Hinh\\D01014613-p1.jpg"));
 
-		setTitle("QUẢN LÍ QUẦY THUỐC BỆNH VIỆN HẠNH PHÚC");
+		setTitle("QUẢN LÍ QUÁN CAFE");
 		setSize(700, 733);
 
 		setLocationRelativeTo(null);
@@ -168,7 +168,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 
 
 
-		jp1.add(lblLHD = new JLabel("LẬP HÓA ĐƠN"));
+		jp1.add(lblLHD = new JLabel("LẬP HÓA ĐƠN CAFE"));
 		lblLHD.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		lblLHD.setForeground(Color.RED);
 
@@ -380,7 +380,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 
 
 		JScrollPane scroll = new  JScrollPane();
-		String[] tb = new String[] {"STT","Mã","Tên Thuốc","Loại Thuốc","Đơn Vị Tính","Hàm Lượng","Đơn Giá(VNĐ)","Số Lượng","Giảm Giá(%)","Thành Tiền(VNĐ)"};
+		String[] tb = new String[] {"STT","Mã","Tên Món","Loại Món","Đơn Vị Tính","Hàm Lượng","Đơn Giá(VNĐ)","Số Lượng","Giảm Giá(%)","Thành Tiền(VNĐ)"};
 
 		tablemodel = new DefaultTableModel(tb, 0) ;
 
@@ -469,16 +469,16 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		scroll.setBounds(10, 370, 1140, 248);
 		getContentPane().add(tabbedPane);
 
-		btnThemThuocTim = new JButton("Thêm");
-		btnThemThuocTim.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		btnThemThuocTim.addActionListener(new ActionListener() {
+		btnThemMonTim = new JButton("Thêm");
+		btnThemMonTim.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		btnThemMonTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
-		btnThemThuocTim.setIcon(new ImageIcon("Hinh\\search.png"));
-		btnThemThuocTim.setBounds(507, 158, 120, 23);
-		jp1.add(btnThemThuocTim);
+		btnThemMonTim.setIcon(new ImageIcon("Hinh\\search.png"));
+		btnThemMonTim.setBounds(507, 158, 120, 23);
+		jp1.add(btnThemMonTim);
 
 		btnXoa = new JButton("Xóa ");
 		btnXoa.setFont(new Font("Times New Roman", Font.BOLD, 18));
@@ -488,13 +488,13 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		jp1.add(btnXoa);
 
 		
-		cboTimKiemThuoc = new JComboBox();
-		cboTimKiemThuoc.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		cboTimKiemThuoc.setEditable(true);
-		cboTimKiemThuoc.setBounds(105, 158, 390, 23);
-		jp1.add(cboTimKiemThuoc);
+		cboTimKiemMon = new JComboBox();
+		cboTimKiemMon.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		cboTimKiemMon.setEditable(true);
+		cboTimKiemMon.setBounds(105, 158, 390, 23);
+		jp1.add(cboTimKiemMon);
 
-		lblMHd = new JLabel("Tên Thuốc:");
+		lblMHd = new JLabel("Tên Món:");
 		lblMHd.setForeground(new Color(0, 0, 0));
 		lblMHd.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		lblMHd.setBounds(10, 159, 113, 20);
@@ -630,18 +630,18 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		txtTienThoiLai.setColumns(10);
 		txtTienThoiLai.setBounds(820, 73, 270, 28);
 		jp2.add(txtTienThoiLai);
-		lblTongTienThuoc = new JLabel("Tổng tiền Thuốc (VNĐ):");
-		lblTongTienThuoc.setForeground(Color.BLACK);
-		lblTongTienThuoc.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblTongTienThuoc.setBounds(20, 34, 355, 20);
-		jp2.add(lblTongTienThuoc);
+		lblTongTienMon = new JLabel("Tổng tiền Món (VNĐ):");
+		lblTongTienMon.setForeground(Color.BLACK);
+		lblTongTienMon.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblTongTienMon.setBounds(20, 34, 355, 20);
+		jp2.add(lblTongTienMon);
 
-		txtTongTienThuoc = new JTextField();
-		txtTongTienThuoc.setHorizontalAlignment(SwingConstants.RIGHT);
-		txtTongTienThuoc.setBounds(245, 34, 355, 20);
-		jp2.add(txtTongTienThuoc);
-		txtTongTienThuoc.setEditable(false);
-		txtTongTienThuoc.setColumns(10);
+		txtTongTienMon = new JTextField();
+		txtTongTienMon.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtTongTienMon.setBounds(245, 34, 355, 20);
+		jp2.add(txtTongTienMon);
+		txtTongTienMon.setEditable(false);
+		txtTongTienMon.setColumns(10);
 
 
 		btnInHd = new JButton("In HD");
@@ -689,13 +689,13 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		btnInHd.addActionListener(this);
 
 		getContentPane().add(tabbedPane);
-		cboTimKiemThuoc.addActionListener(this);
-		btnThemThuocTim.addActionListener(this);
+		cboTimKiemMon.addActionListener(this);
+		btnThemMonTim.addActionListener(this);
 		btnXoa.addActionListener(this);
 		table.addMouseListener(this);
 		cboGiamGia1.addActionListener(this);
 		btnThemHoaDon.addActionListener(this);
-		AutoCompleteDecorator.decorate(cboTimKiemThuoc);
+		AutoCompleteDecorator.decorate(cboTimKiemMon);
 		lblThongBao = new JLabel("");
 		lblThongBao.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		lblThongBao.setForeground(Color.RED);
@@ -707,21 +707,11 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		txtNgay.setText(LocalDateTime.now().format(formatter));
 
 		txtNhanVien.setText(lapHoaDonDAO.tenNhanVien(FrmDangNhap.taiKhoan.getTenTaiKhoan()));
-		JLabel lblGoiTinh = new JLabel("Giới tính:");
-		lblGoiTinh.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblGoiTinh.setBounds(770, 86, 86, 26);
-		jp1.add(lblGoiTinh);
 		
-		cboGioiTinh = new JComboBox();
-		cboGioiTinh.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		cboGioiTinh.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ", "Khác"}));
-		cboGioiTinh.setBounds(862, 86, 150, 22);
-		jp1.add(cboGioiTinh);
+		
+		
 
-		JLabel lblNgaySinh = new JLabel("Ngày sinh:");
-		lblNgaySinh.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNgaySinh.setBounds(770, 114, 86, 33);
-		jp1.add(lblNgaySinh);
+		
 
 		/*
 		 * 
@@ -729,16 +719,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		 * 
 		 * 
 		 * */
-		txtNgaySinh = new JDateChooser();
-		txtNgaySinh.getCalendarButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		txtNgaySinh.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		txtNgaySinh.setBounds(862, 120, 180, 20);
-		txtNgaySinh.setLocale(Locale.forLanguageTag("vi-VN"));
-		txtNgaySinh.setDateFormatString("dd/MM/yyyy");
-		jp1.add(txtNgaySinh);
+		
 
 
 		
@@ -760,9 +741,9 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		cboGiamGia1.addKeyListener(this);
 		mntmSoLuong.addActionListener(this);
 		mntmXoa.addActionListener(this);
-		cboTimKiemThuoc.removeAllItems();
-		updateComboxTenThuoc();
-		//System.out.println(maThuocTheoTenVaDonViTinh("PARACETAMOL 500 mg", "Vỉ"));
+		cboTimKiemMon.removeAllItems();
+		updateComboxTenMon();
+		//System.out.println(maMonTheoTenVaDonViTinh("PARACETAMOL 500 mg", "Vỉ"));
 	}
 	//
 	//
@@ -818,18 +799,18 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		// get tong tien tu form 
 		float tongTien = 0;
 		tongTien = tongThanhToan;
-		// them hoa don loai thuoc ke don
+		// them hoa don loai mon ke don
 		lapHoaDonDAO.addHoaDonLoaiKeDon(maNhanVien, maKhachHang, tongTien);
 		// them frm xuathd
 		String loaiHoaDon="";
 		if(radKeDon.isSelected()) {
-			loaiHoaDon = "Thuốc kê đơn";
+			loaiHoaDon = "Món kê đơn";
 		}
 		else if(radKhongKeDon.isSelected()) {
 			loaiHoaDon = "Không kê đơn";
 		}
 
-		setDuLieuFrmInHd(lapHoaDonDAO.maHoaDon(String.valueOf(maNhanVien)),loaiHoaDon , txtNgay.getText(), name, ngaySinhtxt,gioiTinh, soDienThoai,txtDChi.getText(),"", txtTongTienThuoc.getText(), txtTongThanhToan.getText(), txtNhanVien.getText(), ten);
+		setDuLieuFrmInHd(lapHoaDonDAO.maHoaDon(String.valueOf(maNhanVien)),loaiHoaDon , txtNgay.getText(), name, ngaySinhtxt,gioiTinh, soDienThoai,txtDChi.getText(),"", txtTongTienMon.getText(), txtTongThanhToan.getText(), txtNhanVien.getText(), ten);
 		frmXuatHD.lblSL.setText(i +"");
 	}
 
@@ -869,7 +850,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		}
 	}
 	/*
-	 * update cbo thuoc tim kiem
+	 * update cbo mon tim kiem
 	 * 
 	 * 
 	 * 
@@ -877,19 +858,19 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	 * 
 	 * */
 	//
-	String tenThuocSoSanh="";
-	public  void updateComboxTenThuoc() {
-		cboTimKiemThuoc.removeAllItems();
+	String tenMonSoSanh="";
+	public  void updateComboxTenMon() {
+		cboTimKiemMon.removeAllItems();
 		try {
-			cboModeTimKiemThuoc.addElement(null);
-			String tenThuoc ="";
-			for(Thuoc thuoc : lapHoaDonDAO.updateComboxTenThuoc()) {
-				if(thuoc.getTenThuoc().equalsIgnoreCase(tenThuocSoSanh)==false) {
-					tenThuoc = thuoc.getTenThuoc();
-					cboModeTimKiemThuoc.addElement(tenThuoc);
-					cboTimKiemThuoc.setModel(cboModeTimKiemThuoc);
+			cboModeTimKiemMon.addElement(null);
+			String tenMon ="";
+			for(Mon mon : lapHoaDonDAO.updateComboxTenMon()) {
+				if(mon.getTenMon().equalsIgnoreCase(tenMonSoSanh)==false) {
+					tenMon = mon.getTenMon();
+					cboModeTimKiemMon.addElement(tenMon);
+					cboTimKiemMon.setModel(cboModeTimKiemMon);
 				}
-				tenThuocSoSanh = tenThuoc;
+				tenMonSoSanh = tenMon;
 			}
 
 		} catch (Exception e) {
@@ -919,37 +900,37 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	}
 
 	
-	public static void danhSachThuocTheoMaThuoc(int maThuoc) {
-		if(lapHoaDonDAO.soLuongThuocDaBan(maThuoc) > lapHoaDonDAO.soLuongNhap(maThuoc)) {
-			JOptionPane.showMessageDialog(jp1, "Thuốc đã tạm hết thuốc trong kho ! \n Vui lòng chọn loại thuốc khác");
+	public static void danhSachMonTheoMaMon(int maMon) {
+		if(lapHoaDonDAO.soLuongMonDaBan(maMon) > lapHoaDonDAO.soLuongNhap(maMon)) {
+			JOptionPane.showMessageDialog(jp1, "Món đã tạm hết món trong kho ! \n Vui lòng chọn loại món khác");
 		}
 		else {
 			try {
-				Thuoc thuoc = new Thuoc();
-				thuoc = lapHoaDonDAO.ThuocTheoMa(maThuoc);
-				if(thuoc != null) {
-					int maThuocInt = thuoc.getMaThuoc();
-					String tenThuocs = thuoc.getTenThuoc();
-					String loaiThuoc = thuoc.getPhanLoai();
-					String donViTinhs = thuoc.getDonViTinh();
-					String hamLuong = thuoc.getHamLuong();
-					String donGia = thuoc.getDonGia() + "";
+				Mon mon = new Mon();
+				mon = lapHoaDonDAO.MonTheoMa(maMon);
+				if(mon != null) {
+					int maMonInt = mon.getMaMon();
+					String tenMons = mon.getTenMon();
+					String loaiMon = mon.getPhanLoai();
+					String donViTinhs = mon.getDonViTinh();
+					String hamLuong = mon.getHamLuong();
+					String donGia = mon.getDonGia() + "";
 					double thanhTien = Integer.parseInt(txtSoLuong.getText()) * Double.parseDouble(donGia);
-					if(loaiThuoc.equalsIgnoreCase("Thuốc kê đơn")) {
+					if(loaiMon.equalsIgnoreCase("Món kê đơn")) {
 						radKeDon.setSelected(true);
 						radKhongKeDon.setSelected(false);
-						setLoaiThuoc = "Thuốc kê đơn";
-						lblThongBao.setText("Thuốc kê đơn vui lòng nhập thông tin khách hàng!");
+						setLoaiMon = "Món kê đơn";
+						lblThongBao.setText("Món kê đơn vui lòng nhập thông tin khách hàng!");
 						txtSdt.requestFocus();
 
 					}
-					else if(loaiThuoc.equalsIgnoreCase("Không kê đơn") && setLoaiThuoc.equalsIgnoreCase("Thuốc kê đơn")==false) {
+					else if(loaiMon.equalsIgnoreCase("Không kê đơn") && setLoaiMon.equalsIgnoreCase("Món kê đơn")==false) {
 						radKhongKeDon.setSelected(true);
 						radKeDon.setSelected(false);
 						lblThongBao.setText("");
 					}
 					tablemodel.addRow(new Object[] {
-							++i,maThuocInt,tenThuocs,loaiThuoc,donViTinhs,hamLuong,donGia,txtSoLuong.getText(),0,thanhTien
+							++i,maMonInt,tenMons,loaiMon,donViTinhs,hamLuong,donGia,txtSoLuong.getText(),0,thanhTien
 					});
 					updateTongTien();
 				}
@@ -967,20 +948,20 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 	 * 
 	 * 
 	 * */
-	// update table chon thuoc
+	// update table chon mon
 
-	public boolean updateTableChonThuoc(String tenThuoc) {
+	public boolean updateTableChonMon(String tenMon) {
 		try {
-			frmChonThuoc.xoaDuLieuTableModel();
-			frmChonThuoc.lblThuocCoTen.setText("Thuốc "+tenThuoc);
-			if(lapHoaDonDAO.danhSachThuocTimKiemTheoTen_TimKiemTuongDoi(tenThuoc).isEmpty() == false) {
-				for(Thuoc thuoc: lapHoaDonDAO.danhSachThuocTimKiemTheoTen_TimKiemTuongDoi(tenThuoc)) {
-					frmChonThuoc.tableModel.addRow(new Object[] {
-							thuoc.getMaThuoc(),thuoc.getNhomThuoc(),thuoc.getTenThuoc(),thuoc.getPhanLoai(),thuoc.getHamLuong(),thuoc.getDangBaoChe(),thuoc.getDonViTinh(),thuoc.getDonGia(),thuoc.getNhaCungcap().getTenNCC()
+			frmChonMon.xoaDuLieuTableModel();
+			frmChonMon.lblMonCoTen.setText("Món "+tenMon);
+			if(lapHoaDonDAO.danhSachMonTimKiemTheoTen_TimKiemTuongDoi(tenMon).isEmpty() == false) {
+				for(Mon mon: lapHoaDonDAO.danhSachMonTimKiemTheoTen_TimKiemTuongDoi(tenMon)) {
+					frmChonMon.tableModel.addRow(new Object[] {
+							mon.getMaMon(),mon.getNhomMon(),mon.getTenMon(),mon.getPhanLoai(),mon.getHamLuong(),mon.getDangBaoChe(),mon.getDonViTinh(),mon.getDonGia(),mon.getNhaCungcap().getTenNCC()
 					});
-					frmChonThuoc.table.setModel(frmChonThuoc.tableModel);
+					frmChonMon.table.setModel(frmChonMon.tableModel);
 				}
-				frmChonThuoc.table.setRowSelectionInterval(0, 0);
+				frmChonMon.table.setRowSelectionInterval(0, 0);
 				return true;
 			}
 			else
@@ -1014,34 +995,34 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		}
 		return true;
 	}
-	public boolean kiemTraThuocKeDon() {
+	public boolean kiemTraMonKeDon() {
 		List data = tablemodel.getDataVector();
 		Object[] list1 = data.toArray();
 		for(int k=0;k<list1.length;k++) {
-			String loaiThuoc = tablemodel.getValueAt(k, 3).toString();
-			if(loaiThuoc.equalsIgnoreCase("Thuốc kê đơn")) {
+			String loaiMon = tablemodel.getValueAt(k, 3).toString();
+			if(loaiMon.equalsIgnoreCase("Món kê đơn")) {
 				radKeDon.setSelected(true);
 				radKhongKeDon.setSelected(false);
-				lblThongBao.setText("Thuốc kê đơn vui lòng nhập thông tin khách hàng!");
+				lblThongBao.setText("Món kê đơn vui lòng nhập thông tin khách hàng!");
 				return true;
 			}
 		}
 		return false;
 	}
-	public boolean kiemTraTrungThuoc(String tenThuoc) {
+	public boolean kiemTraTrungMon(String tenMon) {
 		List data = tablemodel.getDataVector();
 		Object[] list1 = data.toArray();
 		for(int k=0;k<list1.length;k++) {
-			String tenThuocTable = tablemodel.getValueAt(k, 2).toString();
+			String tenMonTable = tablemodel.getValueAt(k, 2).toString();
 
-			if(tenThuoc.equalsIgnoreCase(tenThuocTable)) {
+			if(tenMon.equalsIgnoreCase(tenMonTable)) {
 				table.setRowSelectionInterval(k, k);
 				return true;
 			}
 		}
 		return false;
 	}
-	public boolean kiemTraNhapKhachHangThuocKeDon() {
+	public boolean kiemTraNhapKhachHangMonKeDon() {
 		if(radKeDon.isSelected()) {
 			if(txtSdt.getText().equalsIgnoreCase("")) {
 				JOptionPane.showMessageDialog(this, "Nhập số điện thoại của khách hàng.");
@@ -1078,7 +1059,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		txtDChi.setText("");
 		txtCCCD.setText("");
 	}
-	public void setDuLieuFrmInHd(String maHoaDon,String loaiHoaDon,String ngayLap,String hoTenKh,String namSinh,String gioiTinh,String soDT,String diaChi,String soLuong,String tongTienThuoc,String tongTienThanhToan,String tenNguoiBan,String tenKhachHang) {
+	public void setDuLieuFrmInHd(String maHoaDon,String loaiHoaDon,String ngayLap,String hoTenKh,String namSinh,String gioiTinh,String soDT,String diaChi,String soLuong,String tongTienMon,String tongTienThanhToan,String tenNguoiBan,String tenKhachHang) {
 
 		frmXuatHD.lblMaHD.setText(maHoaDon);
 		frmXuatHD.lblLoaiHD1.setText(loaiHoaDon);
@@ -1088,7 +1069,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		frmXuatHD.lblDCKH1.setText(diaChi);
 		frmXuatHD.lblNamSinh1.setText(namSinh);
 		frmXuatHD.lblsdtkh1.setText(soDT);
-		frmXuatHD.lblTongTThuoc.setText(tongTienThuoc);
+		frmXuatHD.lblTongTMon.setText(tongTienMon);
 		frmXuatHD.lblTongT.setText(tongTienThanhToan);
 		frmXuatHD.lblNguoiBan.setText(tenNguoiBan);
 		frmXuatHD.lblNguoiMuaHang1.setText(tenKhachHang);
@@ -1117,7 +1098,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 			}
 		}
 		for(ChiTietHoaDon hoaDon: listCT_HD) {
-			lapHoaDonDAO.addCT_HoaDon(hoaDon.getMaHoaDon(), hoaDon.getMaThuoc(), hoaDon.getDonGia(), hoaDon.getGiamGia(), hoaDon.getSoLuong(), hoaDon.getDonViTinh());
+			lapHoaDonDAO.addCT_HoaDon(hoaDon.getMaHoaDon(), hoaDon.getMaMon(), hoaDon.getDonGia(), hoaDon.getGiamGia(), hoaDon.getSoLuong(), hoaDon.getDonViTinh());
 		}
 		btnInHd.setEnabled(false);
 		//	frmXuatHD.setVisible(true);
@@ -1153,11 +1134,11 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 			}
 		}
 		for(ChiTietHoaDon hoaDon: listCT_HD) {
-			lapHoaDonDAO.addCT_HoaDon(hoaDon.getMaHoaDon(), hoaDon.getMaThuoc(), hoaDon.getDonGia(), hoaDon.getGiamGia(), hoaDon.getSoLuong(), hoaDon.getDonViTinh());
+			lapHoaDonDAO.addCT_HoaDon(hoaDon.getMaHoaDon(), hoaDon.getMaMon(), hoaDon.getDonGia(), hoaDon.getGiamGia(), hoaDon.getSoLuong(), hoaDon.getDonViTinh());
 		}
 		btnInHd.setEnabled(false);
 		int maNhanVien = Integer.parseInt(lapHoaDonDAO.maNhanVien(FrmDangNhap.taiKhoan.getTenTaiKhoan()));
-		setDuLieuFrmInHd(lapHoaDonDAO.maHoaDon(String.valueOf(maNhanVien)),"Không kê đơn", txtNgay.getText(), "", "", "", "", "", "", txtTongTienThuoc.getText(),txtTongThanhToan.getText(), lapHoaDonDAO.tenNhanVien(txtNhanVien.getText()), "");
+		setDuLieuFrmInHd(lapHoaDonDAO.maHoaDon(String.valueOf(maNhanVien)),"Không kê đơn", txtNgay.getText(), "", "", "", "", "", "", txtTongTienMon.getText(),txtTongThanhToan.getText(), lapHoaDonDAO.tenNhanVien(txtNhanVien.getText()), "");
 		frmXuatHD.lblSL.setText(i + "");
 		this.frmXuatHD.setVisible(true);
 		frmXuatHD.setLocationRelativeTo(null);
@@ -1197,44 +1178,44 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		Object obj = e.getSource();
 		ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
 		ArrayList<ChiTietHoaDon> listCT_HD = new ArrayList<ChiTietHoaDon>();
-		if(obj.equals(btnThemThuocTim)) {
-			Object objTenThuoc = cboTimKiemThuoc.getSelectedItem();
-			String tenThuoc = String.valueOf(objTenThuoc);
-			System.out.println(tenThuoc);
-			if(kiemTraTrungThuoc(tenThuoc)==false) {
-				//hien frmChonThuoc
-				if(updateTableChonThuoc(tenThuoc)==true) {
-					frmChonThuoc.setVisible(true);
-					frmChonThuoc.setLocationRelativeTo(null);
+		if(obj.equals(btnThemMonTim)) {
+			Object objTenMon = cboTimKiemMon.getSelectedItem();
+			String tenMon = String.valueOf(objTenMon);
+			System.out.println(tenMon);
+			if(kiemTraTrungMon(tenMon)==false) {
+				//hien frmChonMon
+				if(updateTableChonMon(tenMon)==true) {
+					frmChonMon.setVisible(true);
+					frmChonMon.setLocationRelativeTo(null);
 				}
-				//	timKiemThuocTheoTen(tenThuoc);
+				//	timKiemMonTheoTen(tenMon);
 
 			}
 			else {
-				JOptionPane.showMessageDialog(this, "Thuốc đã có trong bảng ! Vui lòng nhập số lượng.");
+				JOptionPane.showMessageDialog(this, "Món đã có trong bảng ! Vui lòng nhập số lượng.");
 				boolean check = true;
 				int row = table.getSelectedRow();
 				
-				int maThuoc = (int) table.getValueAt(row, 1);
+				int maMon = (int) table.getValueAt(row, 1);
 				while(check) {
 					try {
-						String soLuongThuocObj = JOptionPane.showInputDialog("Nhập số lượng thuốc mua.",JOptionPane.YES_NO_CANCEL_OPTION);
-						if(soLuongThuocObj == null) {
+						String soLuongMonObj = JOptionPane.showInputDialog("Nhập số lượng món mua.",JOptionPane.YES_NO_CANCEL_OPTION);
+						if(soLuongMonObj == null) {
 							check = false;
 						}
-						else if(soLuongThuocObj != null) {
-							if(soLuongThuocObj.matches("^[0-9]+$")) {
-								int soLuongThuocMoi = Integer.parseInt(soLuongThuocObj.toString());
-								int soLuongThuocCu = Integer.parseInt(table.getValueAt(row, 7).toString());
-								if((lapHoaDonDAO.soLuongThuocDaBan(maThuoc) + (soLuongThuocMoi+soLuongThuocCu)) <= lapHoaDonDAO.soLuongNhap(maThuoc)) {
+						else if(soLuongMonObj != null) {
+							if(soLuongMonObj.matches("^[0-9]+$")) {
+								int soLuongMonMoi = Integer.parseInt(soLuongMonObj.toString());
+								int soLuongMonCu = Integer.parseInt(table.getValueAt(row, 7).toString());
+								if((lapHoaDonDAO.soLuongMonDaBan(maMon) + (soLuongMonMoi+soLuongMonCu)) <= lapHoaDonDAO.soLuongNhap(maMon)) {
 
-									int soLuongThuocCuMoi = soLuongThuocMoi + soLuongThuocCu;
-									table.setValueAt(soLuongThuocCuMoi, row, 7);
+									int soLuongMonCuMoi = soLuongMonMoi + soLuongMonCu;
+									table.setValueAt(soLuongMonCuMoi, row, 7);
 
 									check = false;
 								}
 								else
-									JOptionPane.showMessageDialog(this, "Số Lượng Thuốc Cần Mua Vượt Giới Hạn Thuốc Trong Kho!\n Nhập Số Lượng Ít Hơn "+(lapHoaDonDAO.soLuongNhap(maThuoc)-(lapHoaDonDAO.soLuongThuocDaBan(maThuoc)+soLuongThuocCu)));
+									JOptionPane.showMessageDialog(this, "Số Lượng Món Cần Mua Vượt Giới Hạn Món Trong Kho!\n Nhập Số Lượng Ít Hơn "+(lapHoaDonDAO.soLuongNhap(maMon)-(lapHoaDonDAO.soLuongMonDaBan(maMon)+soLuongMonCu)));
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "Số Lượng Phải Nhập Bằng Chữ!");
@@ -1257,7 +1238,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 			Object o =JOptionPane.showConfirmDialog(this, "Bạn có chăc chắn in hóa đơn?");
 			String chon = o.toString();
 			if(chon.equalsIgnoreCase("0")) {
-				if(kiemTraNhapKhachHangThuocKeDon()) {
+				if(kiemTraNhapKhachHangMonKeDon()) {
 					themHoaDonVaChiTietHoaDonKeDon();
 				}
 				else if(radKhongKeDon.isSelected() && txtSdt.getText().equalsIgnoreCase("")==false) {
@@ -1275,7 +1256,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 					tablemodel.removeRow(row);
 					i--;
 					//
-					if(kiemTraThuocKeDon()==false) {
+					if(kiemTraMonKeDon()==false) {
 						radKhongKeDon.setSelected(true);
 						radKeDon.setSelected(false);
 						lblThongBao.setText("");
@@ -1288,7 +1269,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 						double tong =Double.parseDouble(tablemodel.getValueAt(k, 9).toString());
 						tongTien += tong;
 					}
-					txtTongTienThuoc.setText(String.valueOf(tongTien));
+					txtTongTienMon.setText(String.valueOf(tongTien));
 				}
 
 			} catch (Exception e2) {
@@ -1298,7 +1279,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 		}
 		else if(obj.equals(cboGiamGia1)) {
 			DecimalFormat tien = new DecimalFormat("#,##0");
-			double tongTien =Double.parseDouble(txtTongTienThuoc.getText());
+			double tongTien =Double.parseDouble(txtTongTienMon.getText());
 			int giamGia1 =Integer.parseInt(cboGiamGia1.getSelectedItem().toString());
 			if(giamGia1==0) {
 				tongThanhToan = (float) (tongTien + (tongTien*(0.05)));
@@ -1328,7 +1309,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 			frmXuatHD.lblDCKH1.setText("");
 			frmXuatHD.lblNamSinh1.setText("");
 			frmXuatHD.lblsdtkh1.setText("");
-			frmXuatHD.lblTongTThuoc.setText("");
+			frmXuatHD.lblTongTMon.setText("");
 			frmXuatHD.lblTongT.setText("");
 			frmXuatHD.lblNguoiBan.setText("");
 			frmXuatHD.lblNguoiMuaHang1.setText("");
@@ -1338,34 +1319,34 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 			frmXuatHD.tableModel = (DefaultTableModel) frmXuatHD.table.getModel();
 			frmXuatHD.tableModel.getDataVector().removeAllElements();
 			i=0;
-			txtNgaySinh.setDate(null);
-			txtTongTienThuoc.setText("");
+			
+			txtTongTienMon.setText("");
 			txtTongThanhToan.setText("");
-			setLoaiThuoc = "";
+			setLoaiMon = "";
 		}
 		else if(obj.equals(mntmSoLuong)) {
 			boolean check = true;
 			int row = table.getSelectedRow();
-			int maThuoc = (int) table.getValueAt(row, 1);
+			int maMon = (int) table.getValueAt(row, 1);
 			while(check) {
 				try {
-					String soLuongThuocObj = JOptionPane.showInputDialog("Nhập số lượng thuốc mua.",JOptionPane.YES_NO_CANCEL_OPTION);
-					if(soLuongThuocObj == null) {
+					String soLuongMonObj = JOptionPane.showInputDialog("Nhập số lượng món mua.",JOptionPane.YES_NO_CANCEL_OPTION);
+					if(soLuongMonObj == null) {
 						check = false;
 					}
-					else if(soLuongThuocObj != null) {
-						if(soLuongThuocObj.matches("^[0-9]+$")) {
-							int soLuongThuocMoi = Integer.parseInt(soLuongThuocObj.toString());
-							int soLuongThuocCu = Integer.parseInt(table.getValueAt(row, 7).toString());
-							if((lapHoaDonDAO.soLuongThuocDaBan(maThuoc) + (soLuongThuocMoi+soLuongThuocCu)) <= lapHoaDonDAO.soLuongNhap(maThuoc)) {
+					else if(soLuongMonObj != null) {
+						if(soLuongMonObj.matches("^[0-9]+$")) {
+							int soLuongMonMoi = Integer.parseInt(soLuongMonObj.toString());
+							int soLuongMonCu = Integer.parseInt(table.getValueAt(row, 7).toString());
+							if((lapHoaDonDAO.soLuongMonDaBan(maMon) + (soLuongMonMoi+soLuongMonCu)) <= lapHoaDonDAO.soLuongNhap(maMon)) {
 
-								int soLuongThuocCuMoi = soLuongThuocMoi + soLuongThuocCu;
-								table.setValueAt(soLuongThuocCuMoi, row, 7);
+								int soLuongMonCuMoi = soLuongMonMoi + soLuongMonCu;
+								table.setValueAt(soLuongMonCuMoi, row, 7);
 
 								check = false;
 							}
 							else
-								JOptionPane.showMessageDialog(this, "Số Lượng Thuốc Cần Mua Vượt Giới Hạn Thuốc Trong Kho!\n Nhập Số Lượng Ít Hơn "+(lapHoaDonDAO.soLuongNhap(maThuoc)-(lapHoaDonDAO.soLuongThuocDaBan(maThuoc)+soLuongThuocCu)));
+								JOptionPane.showMessageDialog(this, "Số Lượng Món Cần Mua Vượt Giới Hạn Món Trong Kho!\n Nhập Số Lượng Ít Hơn "+(lapHoaDonDAO.soLuongNhap(maMon)-(lapHoaDonDAO.soLuongMonDaBan(maMon)+soLuongMonCu)));
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Số Lượng Phải Nhập Bằng Chữ!");
@@ -1382,7 +1363,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 					check = true;
 				}catch (ArrayIndexOutOfBoundsException e4) {
 					// TODO: handle exception
-					JOptionPane.showMessageDialog(this, "Chọn Vào Thuốc Cần Thêm Số Lượng!");
+					JOptionPane.showMessageDialog(this, "Chọn Vào Món Cần Thêm Số Lượng!");
 				}
 			}
 		}
@@ -1393,7 +1374,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 					tablemodel.removeRow(row);
 					i--;
 					//
-					if(kiemTraThuocKeDon()==false) {
+					if(kiemTraMonKeDon()==false) {
 						radKhongKeDon.setSelected(true);
 						radKeDon.setSelected(false);
 						lblThongBao.setText("");
@@ -1406,7 +1387,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 						double tong =Double.parseDouble(tablemodel.getValueAt(k, 9).toString());
 						tongTien += tong;
 					}
-					txtTongTienThuoc.setText(String.valueOf(tongTien));
+					txtTongTienMon.setText(String.valueOf(tongTien));
 				}
 
 			} catch (Exception e2) {
@@ -1430,7 +1411,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 			double tong =Double.parseDouble(tablemodel.getValueAt(k, 9).toString());
 			tongTien += tong;
 		}
-		txtTongTienThuoc.setText(String.valueOf(tongTien));
+		txtTongTienMon.setText(String.valueOf(tongTien));
 		if(giamGia1==0) {
 			tongThanhToan = (float) (tongTien + (tongTien*(0.05)));
 
@@ -1479,7 +1460,7 @@ public class FrmLapHoaDon extends JFrame implements ActionListener,MouseListener
 					double tong =Double.parseDouble(tablemodel.getValueAt(k, 9).toString());
 					tongTien += tong;
 				}
-				txtTongTienThuoc.setText(String.valueOf(tongTien));
+				txtTongTienMon.setText(String.valueOf(tongTien));
 				if(giamGia1==0) {
 					tongThanhToan = (float) (tongTien + (tongTien*(0.05)));
 
