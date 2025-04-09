@@ -1,4 +1,4 @@
-/* Người làm: Nguyễn Hoài Phúc */
+/* Người làm: Nguyễn Tuấn Phát */
 package entities;
 
 public class ThongKeBaoCaoTQ {
