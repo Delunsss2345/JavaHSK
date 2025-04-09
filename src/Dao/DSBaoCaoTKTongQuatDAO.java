@@ -1,161 +1,133 @@
-/* Người làm: Nguyễn Hoài Phúc*/
+/* Người làm: Nguyễn Tuấn Phát */
 package Dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import database.ConectDatabase;
-import entities.NhaCungCap;
 import entities.ThongKeBaoCaoTQ;
-import entities.Thuoc;
 
 public class DSBaoCaoTKTongQuatDAO {
-	Connection con;
-	PreparedStatement pre;
-	ResultSet rs;
+	private Connection con;
+	private PreparedStatement pre;
+	private ResultSet rs;
 
-	ArrayList<ThongKeBaoCaoTQ> ds;
-	ThongKeBaoCaoTQ tkbc;
+	public DSBaoCaoTKTongQuatDAO() {}
 
-	public DSBaoCaoTKTongQuatDAO() {
-		ds = new ArrayList<ThongKeBaoCaoTQ>();
-	}
-	
-	
-	public List<String> getAllNgay() throws Exception {
-		List<String> result = new ArrayList<String>();
+	public List<String> getAllNgayLapHoaDon() throws Exception {
+		List<String> result = new ArrayList<>();
 		try {
-			Connection con = ConectDatabase.getInstance().getConnection();
-			PreparedStatement stmt = null;
-			String sql = "select NgayLap from HoaDon";
-			stmt = con.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
-			String ngay;
+			con = ConectDatabase.getInstance().getConnection();
+			String sql = "SELECT NgayLap FROM HoaDon";
+			pre = con.prepareStatement(sql);
+			rs = pre.executeQuery();
 			while (rs.next()) {
-				ngay = rs.getString(1);
-				result.add(ngay);
+				result.add(rs.getString("NgayLap"));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
+			if (rs != null) rs.close();
+			if (pre != null) pre.close();
 		}
 		return result;
 	}
 
-	public double tinhTongThuocBanDuocTheoThang(int thang, int nam) throws Exception {
+	public double tinhTongDoanhThuTheoThang(int thang, int nam) throws Exception {
 		double tongTien = 0;
 		try {
-			Connection con = ConectDatabase.getInstance().getConnection();
-			String sql = "select sum(c.SoLuong* c.DonGia) from HoaDon h join CT_HoaDon c on h.MaHoaDon=c.MaHoaDon\r\n"
-					+ "where month(NgayLap)=? and  year(NgayLap)=?";
+			con = ConectDatabase.getInstance().getConnection();
+			String sql = """
+				SELECT SUM(ct.SoLuong * ct.DonGia) AS TongTien
+				FROM HoaDon hd JOIN CT_HoaDon ct ON hd.MaHoaDon = ct.MaHoaDon
+				WHERE MONTH(NgayLap) = ? AND YEAR(NgayLap) = ?
+			""";
 			pre = con.prepareStatement(sql);
 			pre.setInt(1, thang);
 			pre.setInt(2, nam);
 			rs = pre.executeQuery();
-			while (rs.next()) {
-				tongTien = rs.getDouble(1);
+			if (rs.next()) {
+				tongTien = rs.getDouble("TongTien");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
+			if (rs != null) rs.close();
+			if (pre != null) pre.close();
 		}
 		return tongTien;
 	}
 
-	
-	public double tinhTongTienThuocDaNhapTheoThang(int thang, int nam) throws Exception {
-		double tongTien = 0;
+	public double tinhTongChiNhapNguyenLieuTheoThang(int thang, int nam) throws Exception {
+		double tongTienNhap = 0;
 		try {
-			Connection con = ConectDatabase.getInstance().getConnection();
-			String sql =  "								select t.MaThuoc,t.TenThuoc,t.DonGia,t.GiaNhap,CONVERT (nvarchar(10), h.NgayLap, 103) as HanSuDung,t.[SoDangKi],SUM(t.SoLuongNhap) AS SoLuongNhap,sum(ct.SoLuong) as SoLuongBan,sum(ct.SoLuong*ct.DonGia) as TienBan,sum(ct.SoLuong*t.GiaNhap) as TienNhap\r\n" + 
-					"					from CT_HoaDon ct join Thuoc t on ct.maThuoc= t.maThuoc join HoaDon h on  ct.MaHoaDon=h.MaHoaDon\r\n" + 
-					"					where month(NgayLap)=? and year(NgayLap)=?\r\n" + 
-					"					group by  t.MaThuoc,t.TenThuoc,t.DonGia,t.GiaNhap,CONVERT (nvarchar(10), h.NgayLap, 103),t.[SoDangKi]\r\n" + 
-					"					";
+			con = ConectDatabase.getInstance().getConnection();
+			String sql = """
+				SELECT SUM(ct.SoLuong * nl.GiaNhap) AS TongTienNhap
+				FROM CT_HoaDon ct
+				JOIN Mon nl ON ct.MaMon = nl.MaMon
+				JOIN HoaDon hd ON ct.MaHoaDon = hd.MaHoaDon
+				WHERE MONTH(hd.NgayLap) = ? AND YEAR(hd.NgayLap) = ?
+			""";
 			pre = con.prepareStatement(sql);
 			pre.setInt(1, thang);
 			pre.setInt(2, nam);
 			rs = pre.executeQuery();
-			
-			while (rs.next()) {
-				tongTien += rs.getInt(8) * rs.getDouble(4);
-				
+			if (rs.next()) {
+				tongTienNhap = rs.getDouble("TongTienNhap");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
+			if (rs != null) rs.close();
+			if (pre != null) pre.close();
 		}
-		return tongTien;
+		return tongTienNhap;
 	}
-	
-	
-	
-	public List<ThongKeBaoCaoTQ> thongKeThuocDaBan_DoanhThu_TheoThang(int thang, int nam, int a) throws Exception {
-		List<ThongKeBaoCaoTQ> dsThuoc = new ArrayList<>();
+
+	public List<ThongKeBaoCaoTQ> thongKeMonDaBan_TheoThang(int thang, int nam, int caLam) throws Exception {
+		List<ThongKeBaoCaoTQ> dsMon = new ArrayList<>();
 		try {
-			Connection con = ConectDatabase.getInstance().getConnection();
-			if (a != 0)
-			{	
-			String sql = "								select t.MaThuoc,t.TenThuoc,t.DonGia,t.GiaNhap,CONVERT (nvarchar(10), h.NgayLap, 103) as HanSuDung,t.[SoDangKi],SUM(t.SoLuongNhap) AS SoLuongNhap,sum(ct.SoLuong) as SoLuongBan,sum(ct.SoLuong*ct.DonGia) as TienBan,sum(ct.SoLuong*t.GiaNhap) as TienNhap\r\n" + 
-					"					from CT_HoaDon ct join Thuoc t on ct.maThuoc= t.maThuoc join HoaDon h on  ct.MaHoaDon=h.MaHoaDon join NhanVien n on h.MaNhanVien = n.MaNhanVien\r\n" + 
-					"					where month(NgayLap)=? and year(NgayLap)=? and CaLamViec = ?\r\n" + 
-					"					group by  t.MaThuoc,t.TenThuoc,t.DonGia,t.GiaNhap,CONVERT (nvarchar(10), h.NgayLap, 103),t.[SoDangKi]\r\n" + 
-					"					";
-			pre = con.prepareStatement(sql);
+			con = ConectDatabase.getInstance().getConnection();
+			StringBuilder sql = new StringBuilder("""
+				SELECT m.MaMon, m.TenMon, m.DonGia, m.GiaNhap,
+				       CONVERT(NVARCHAR(10), hd.NgayLap, 103) AS NgayBan,
+				       SUM(ct.SoLuong) AS SoLuongBan,
+				       SUM(ct.SoLuong * ct.DonGia) AS DoanhThu,
+				       SUM(ct.SoLuong * m.GiaNhap) AS ChiPhi
+				FROM CT_HoaDon ct
+				JOIN Mon m ON ct.MaMon = m.MaMon
+				JOIN HoaDon hd ON ct.MaHoaDon = hd.MaHoaDon
+			""");
+
+			if (caLam != 0) {
+				sql.append("JOIN NhanVien nv ON hd.MaNhanVien = nv.MaNhanVien ")
+				   .append("WHERE MONTH(hd.NgayLap) = ? AND YEAR(hd.NgayLap) = ? AND nv.CaLamViec = ? ");
+			} else {
+				sql.append("WHERE MONTH(hd.NgayLap) = ? AND YEAR(hd.NgayLap) = ? ");
+			}
+
+			sql.append("GROUP BY m.MaMon, m.TenMon, m.DonGia, m.GiaNhap, CONVERT(NVARCHAR(10), hd.NgayLap, 103)");
+
+			pre = con.prepareStatement(sql.toString());
 			pre.setInt(1, thang);
 			pre.setInt(2, nam);
-			pre.setInt(3, a);
+			if (caLam != 0) pre.setInt(3, caLam);
+
 			rs = pre.executeQuery();
-			}
-			else if(a == 0)
-			{
-				String sql = "								select t.MaThuoc,t.TenThuoc,t.DonGia,t.GiaNhap,CONVERT (nvarchar(10), h.NgayLap, 103) as HanSuDung,t.[SoDangKi],SUM(t.SoLuongNhap) AS SoLuongNhap,sum(ct.SoLuong) as SoLuongBan,sum(ct.SoLuong*ct.DonGia) as TienBan,sum(ct.SoLuong*t.GiaNhap) as TienNhap\r\n" + 
-						"					from CT_HoaDon ct join Thuoc t on ct.maThuoc= t.maThuoc join HoaDon h on  ct.MaHoaDon=h.MaHoaDon\r\n" + 
-						"					where month(NgayLap)=? and year(NgayLap)=?\r\n" + 
-						"					group by  t.MaThuoc,t.TenThuoc,t.DonGia,t.GiaNhap,CONVERT (nvarchar(10), h.NgayLap, 103),t.[SoDangKi]\r\n" + 
-						"					";
-				pre = con.prepareStatement(sql);
-				pre.setInt(1, thang);
-				pre.setInt(2, nam);
-				rs = pre.executeQuery();
-			}
 			while (rs.next()) {
-				ThongKeBaoCaoTQ thuoc = new ThongKeBaoCaoTQ();
-				thuoc.setMaThuoc(rs.getString(1));
-				thuoc.setTenThuoc(rs.getString(2));
-				thuoc.setDonGia(rs.getDouble(3));
-				thuoc.setDonGiaNhap(rs.getDouble(4));
-				thuoc.setNgay(rs.getString(5));
-				thuoc.setSoDK(rs.getString(6));
-				thuoc.setSoLuongNhap(rs.getInt(7));
-				thuoc.setSoLuongBan(rs.getInt(8));
-				thuoc.setLoiNhuan(rs.getDouble(9));
-				thuoc.setTienThuocNhap(rs.getDouble(10));
-				dsThuoc.add(thuoc);
+				ThongKeBaoCaoTQ mon = new ThongKeBaoCaoTQ();
+				mon.setMaMon(rs.getString("MaMon"));
+				mon.setTenMon(rs.getString("TenMon"));
+				mon.setDonGia(rs.getDouble("DonGia"));
+				mon.setDonGiaNhap(rs.getDouble("GiaNhap"));
+				mon.setNgay(rs.getString("NgayBan"));
+				mon.setSoLuongBan(rs.getInt("SoLuongBan"));
+				mon.setDoanhThu(rs.getDouble("DoanhThu"));
+				mon.setChiPhiNhap(rs.getDouble("ChiPhi"));
+				dsMon.add(mon);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
+			if (rs != null) rs.close();
+			if (pre != null) pre.close();
 		}
-		return dsThuoc;
-			
-		
+		return dsMon;
 	}
-
-
-	public char[] thongKeThuocDaBan_DoanhThu_TheoThang(int thang, int nam) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-
 }
